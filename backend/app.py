@@ -1,9 +1,12 @@
 from flask import Flask
-app = Flask(__name__)
+from flask_cors import CORS
 
-@app.route('/ping')
-def ping_pong():
-  return 'pong'
+app = Flask(__name__)
+CORS(app)
+
+@app.route('/ping/<int:id>', methods=['GET'])
+def ping_pong(id):
+  return 'pong ' + str(id+1)
 
 if __name__ == '__main__':
   app.run(host='0.0.0.0', port=80)
