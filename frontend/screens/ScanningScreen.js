@@ -1,35 +1,42 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Button, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Button, TouchableOpacity, TextInput, Image } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
+import axios from 'axios';
+import Constants from 'expo-constants';
+import * as FileSystem from 'expo-file-system';
+
 
 // https://docs.expo.dev/versions/latest/sdk/camera/
 
 export default function ScanningScreen({navigation}) {
-  const [cameraPermission, setCameraPermission] = useState(null);
+  const backendEndpoint = Constants.expoConfig.extra.backendEndpoint;
+
+  const [cameraPermission, setCameraPermission] = Camera.useCameraPermissions();
   const [galleryPermission, setGalleryPermission] = useState(null);
 
   const [camera, setCamera] = useState(null);
   const [imageUri, setImageUri] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
 
+  // this function is in shambles
   const permisionFunction = async () => {
     // here is how you can get the camera permission
-    const cameraPermission = await Camera.getCameraPermissionsAsync();
+    // const cameraPermission = await Camera.getCameraPermissionsAsync();
     
-    setCameraPermission(cameraPermission.status === 'granted');
+    // setCameraPermission(cameraPermission.status === 'granted');
 
     const imagePermission = await ImagePicker.getMediaLibraryPermissionsAsync();
-    console.log("image: " + imagePermission.status);
-    console.log("camera: " + cameraPermission.status);
+    // console.log("image: " + imagePermission.status);
+    // console.log("camera: " + cameraPermission.status);
 
     setGalleryPermission(imagePermission.status === 'granted');
 
     if (
-      imagePermission.status !== 'granted' &&
-      cameraPermission.status !== 'granted'
+      imagePermission.status !== 'granted'
+      // cameraPermission.status !== 'granted'
     ) {
-      alert('Permission for media access needed.');
+      // alert('Permission for media access needed.');
     }
   };
 
@@ -37,13 +44,36 @@ export default function ScanningScreen({navigation}) {
     permisionFunction();
   }, []);
 
+  const sendImageToBackend = async (uri) => { //uri comes in
+    // Convert the image to Base64
+    console.log("here " + uri)
+    const base64 = await FileSystem.readAsStringAsync(uri, { encoding: 'base64' });
+    const base64Image = `data:image/jpeg;base64,${base64}`;
+
+    console.log("in sendImageToBackend2")
+
+    axios.post(`http://${backendEndpoint}/upload`, {
+      image: base64Image
+    })
+    .then((response) => {
+      console.log('Image uploaded successfully:', response.data);
+    })
+    .catch((error) => {
+      console.error('Error uploading image:', error);
+    });
+  };
+
   const takePicture = async () => {
     if (camera) {
-      const data = await camera.takePictureAsync(null);
-      console.log(data.uri);
-      setImageUri(data.uri);
+      // Make sure to wait for the onCameraReady callback before calling this method.
+      camera.takePictureAsync({ onPictureSaved: onPictureSaved });      
     }
   };
+
+  const onPictureSaved = (photo) => {
+    setImageUri(photo.uri);
+    sendImageToBackend(photo.uri)
+  }
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -51,13 +81,18 @@ export default function ScanningScreen({navigation}) {
       allowsEditing: true,
       aspect: [1, 1],
       quality: 1,
+      // base64: true,
     });
 
-    console.log(result);
     if (!result.cancelled) {
-      setImageUri(result.uri);
+      setImageUri(result.assets[0].uri);
+      sendImageToBackend(result.assets[0].uri)
     }
   };
+
+  const toggleCameraType = () => {
+    setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
+  }
 
   return (
     <View style={styles.container}>
@@ -70,6 +105,7 @@ export default function ScanningScreen({navigation}) {
         />
       </View>
 
+      <Button title={'Flip'} onPress={toggleCameraType} />
       <Button title={'Take Picture'} onPress={takePicture} />
       <Button title={'Gallery'} onPress={pickImage} />
       {imageUri && <Image source={{ uri: imageUri }} style={{ flex: 1 }} />}
