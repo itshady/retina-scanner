@@ -8,6 +8,8 @@ import sys
 
 from image_predictor import ModelHandler
 
+from image_predictor import ModelHandler
+
 app = Flask(__name__)
 CORS(app)
 
