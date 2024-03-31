@@ -34,3 +34,9 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+# the model
+backend/ml/model.keras
+
+# pycache
+__pycache__/
