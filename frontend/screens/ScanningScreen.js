@@ -53,7 +53,13 @@ export default function ScanningScreen({navigation}) {
     console.log("in sendImageToBackend2")
 
     axios.post(`http://${backendEndpoint}/upload`, {
-      image: base64Image
+      image: base64Image,
+    }, {
+      headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate', // Prevents caching
+        'Pragma': 'no-cache', // HTTP 1.0.
+        'Expires': '0' // Proxies.
+      }
     })
     .then((response) => {
       console.log('Image uploaded successfully:', response.data);

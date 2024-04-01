@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
 import Constants from 'expo-constants';
 import axios from 'axios';
+import { StyleSheet, View, TextInput, Text, Button, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, SafeAreaView } from 'react-native';
 
 export default function LandingScreen({navigation}) {
   const backendEndpoint = Constants.expoConfig.extra.backendEndpoint;
@@ -20,17 +20,23 @@ export default function LandingScreen({navigation}) {
   };
 
   return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        onChangeText={setNumber}
-        value={number}
-        placeholder="Enter a number"
-        keyboardType="numeric"
-      />
-      <Button title="Ping Server" onPress={pingServer} />
-      <Text>{response}</Text>
-    </View>
+    <SafeAreaView style={{flex: 1}}>
+      <KeyboardAvoidingView behavior="height" style={{flex: 1}}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+          <View style={styles.container}>
+            <TextInput
+              style={styles.input}
+              onChangeText={setNumber}
+              value={number}
+              placeholder="Enter a number"
+              keyboardType="numeric"
+            />
+            <Button title="Ping Server" onPress={pingServer} />
+            <Text>{response}</Text>
+          </View>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 
