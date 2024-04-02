@@ -44,13 +44,19 @@
     ],
     "extra": {
 <<<<<<< HEAD
+<<<<<<< HEAD
       "backendEndpoint": "100.93.80.104"
 =======
+=======
+>>>>>>> df59048833d812de37fbe47b2aeee05429885117
       "backendEndpoint": "100.100.69.95",
       "expo":{
         "orientation": "all"
       }
+<<<<<<< HEAD
 >>>>>>> df59048 (Finished the education page)
+=======
+>>>>>>> df59048833d812de37fbe47b2aeee05429885117
     }
   }
 }
