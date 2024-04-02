@@ -37,6 +37,7 @@ yarn-error.*
 
 # the model
 backend/ml/model.keras
+backend/ml/model2.keras
 
 # pycache
 __pycache__/
