@@ -10,11 +10,9 @@ export default function EducationScreen({ navigation }) {
       setOrientation(width > height ? 'landscape' : 'portrait');
     };
 
-    Dimensions.addEventListener('change', handleOrientationChange);
+    dimensionsHandler = Dimensions.addEventListener('change', handleOrientationChange);
 
-    return () => {
-      Dimensions.removeEventListener('change', handleOrientationChange);
-    };
+    return () => dimensionsHandler.remove()
   }, []);
 
   const accordionData = [
