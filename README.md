@@ -1,7 +1,7 @@
 ## Prereq
 
 - Setup tailscale on phone and laptop
-- in frontend/app.json, put your tailscale IP down
+- in frontend/app.json, put your tailscale IP down under extra: backendEndpoint
 
 ## Backend
 
