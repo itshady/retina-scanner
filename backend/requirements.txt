@@ -1,13 +1,5 @@
 Flask
 flask-cors
-<<<<<<< HEAD
-<<<<<<< HEAD
 Pillow
 tensorflow
 numpy
-=======
-Pillow
->>>>>>> df59048 (Finished the education page)
-=======
-Pillow
->>>>>>> df59048833d812de37fbe47b2aeee05429885117
