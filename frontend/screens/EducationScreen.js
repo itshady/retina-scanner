@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Linking, ScrollView, Dimensions } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, TouchableOpacity, Linking, ScrollView, Dimensions } from 'react-native';
 
 export default function EducationScreen({ navigation }) {
   const [orientation, setOrientation] = useState('portrait');
@@ -56,19 +56,21 @@ export default function EducationScreen({ navigation }) {
   }
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Education Section</Text>
-      <Text style={styles.subtitle}>
-        It is important to stay informed about your medical information. This will allow you to be physically and mentally capable of tackling the day 😊. Please use the below resources to get useful knowledge on your medical data this app provides or dive into your curiosity! Each section is click-enabled, so just click the overall information section if you'd like to learn more about that topic.
-      </Text>
-      {accordionData.map((item, index) => (
-        <TouchableOpacity onPress={() => handlePress(item.link)} key={index} style={styles.itemContainer}>
-          <Text style={styles.itemTitle}>{item.title}</Text>
-          <Text style={styles.itemContent}>{item.content}</Text>
-          {/* <Text style={styles.itemLink}>{item.link}</Text> */}
-        </TouchableOpacity>
-      ))}
-    </ScrollView>
+    <SafeAreaView>
+      <ScrollView contentContainerStyle={styles.container}>
+        <Text style={styles.title}>Education Section</Text>
+        <Text style={styles.subtitle}>
+          It is important to stay informed about your medical information. This will allow you to be physically and mentally capable of tackling the day 😊. Please use the below resources to get useful knowledge on your medical data this app provides or dive into your curiosity! Each section is click-enabled, so just click the overall information section if you'd like to learn more about that topic.
+        </Text>
+        {accordionData.map((item, index) => (
+          <TouchableOpacity onPress={() => handlePress(item.link)} key={index} style={styles.itemContainer}>
+            <Text style={styles.itemTitle}>{item.title}</Text>
+            <Text style={styles.itemContent}>{item.content}</Text>
+            {/* <Text style={styles.itemLink}>{item.link}</Text> */}
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
