@@ -3,7 +3,7 @@
     "name": "retina-scanner",
     "slug": "retina-scanner",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "all",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
@@ -43,7 +43,14 @@
       ]
     ],
     "extra": {
+<<<<<<< HEAD
       "backendEndpoint": "100.93.80.104"
+=======
+      "backendEndpoint": "100.100.69.95",
+      "expo":{
+        "orientation": "all"
+      }
+>>>>>>> df59048 (Finished the education page)
     }
   }
 }
