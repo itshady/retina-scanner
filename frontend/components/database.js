@@ -20,18 +20,25 @@ export const fetchResults = (setResults) => {
   });
 };
 
-export const insertResult = async (currentResult, setCurrentResult, setResults) => {
-  await db.transaction(async tx => {
-    await tx.executeSql('INSERT INTO results (result) VALUES (?)', [currentResult],
-      (txObj, resultSet) => {
-        const currentDate = new Date();
-        const formattedDate = currentDate.toLocaleDateString(); // Customize date format as needed
-        let existingResults = [...results];
-        existingResults.push({ id: resultSet.insertId, result: currentResult, resultDate: formattedDate });
-        setResults(existingResults);
-        setCurrentResult(undefined);
-      },
-      (txObj, error) => console.log(error)
-    );
-  });
+export const insertResult = async (results, currentResult, setCurrentResult, setResults) => {
+  try {
+    console.log(currentResult);
+    await db.transaction( async tx => {
+      await tx.executeSql('INSERT INTO results (result) VALUES (?)', [currentResult],
+        (txObj, resultSet) => {
+          const currentDate = new Date();
+          const formattedDate = currentDate.toLocaleDateString();
+          let existingResults = [...results];
+          existingResults.push({ id: resultSet.insertId, result: currentResult, resultDate: formattedDate });
+          setResults(existingResults);
+          setCurrentResult(undefined);
+          console.log("added")
+        },
+        (txObj, error) => console.log(error)
+      );
+    });
+  } catch (error) {
+    console.error("Error inserting: ", error)
+  }
+  
 };

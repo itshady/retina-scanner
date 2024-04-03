@@ -16,8 +16,10 @@ export default function HistoryScreen({navigation}) {
       console.log("results fetched")
     }, []);
 
-    const addResult = async () => {
-      await insertResult(currentResult, setCurrentResult, setResults);
+    const addResult = () => {
+      console.log("before");
+      insertResult(results, currentResult, setCurrentResult, setResults);
+      console.log("after");
     };
     
     if (isLoading) {
@@ -32,7 +34,6 @@ export default function HistoryScreen({navigation}) {
   
       <View style={styles.container}>
       <TextInput value={currentResult} placeholder='name' onChangeText={setCurrentResult}/>
-        <Text>History</Text>
         <Button title="Add Result" onPress={addResult}></Button>
         <DiagnosisProgression results={results}></DiagnosisProgression>
       </View>
