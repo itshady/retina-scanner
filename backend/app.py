@@ -9,6 +9,8 @@ from image_predictor import ModelHandler
 app = Flask(__name__)
 CORS(app)
 
+modelHandler = ModelHandler()
+
 @app.route('/ping/<int:id>', methods=['GET'])
 def ping_pong(id):
   return 'pong ' + str(id+1)
@@ -21,7 +23,6 @@ def upload_image():
   image_data = data['image'].split(",")[1]  # Remove the prefix "data:image/jpeg;base64,"
   image = Image.open(BytesIO(base64.b64decode(image_data)))
 
-  modelHandler = ModelHandler()
   res = modelHandler.predict(image)
 
   image.save('received_image.jpeg')  # Save or process the image

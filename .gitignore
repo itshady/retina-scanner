@@ -3,6 +3,7 @@
 # dependencies
 node_modules/
 frontend/node_modules/
+*/.env
 
 # Expo
 .expo/
@@ -37,6 +38,8 @@ yarn-error.*
 
 # the model
 backend/ml/model.keras
+
+backend/received_image.jpeg
 
 # pycache
 __pycache__/

@@ -1,23 +1,64 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Button, TouchableOpacity, TextInput, Image } from 'react-native';
+import { StyleSheet, Text, View, Button, TouchableOpacity, TextInput, Image, TouchableWithoutFeedback  } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { Camera, CameraType } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
-import Constants from 'expo-constants';
 import * as FileSystem from 'expo-file-system';
+
+const diseaseSeverities = {
+  "nodr": "No diabetic retinopathy",
+  "mild_npdr": "Mild non-proliferative diabetic retinopathy",
+  "moderate_npdr": "Moderate non-proliferative diabetic retinopathy",
+  "severe_npdr": "Severe non-proliferative diabetic retinopathy",
+  "pdr": "Proliferative diabetic retinopathy"
+}
+
+// Popup to display the results from the ML model.
+const ResultsPopup = ({ onClose, result }) => {
+
+  const navigation = useNavigation();
+
+  const navigateToEducationPage = () => {
+    navigation.navigate('Education'); 
+  };
+
+  return (
+    <TouchableWithoutFeedback onPress={onClose}>
+      <View style={styles.resultsOverlay}>
+        <View style={styles.resultsContainer}>
+          <TouchableOpacity onPress={onClose} style={styles.closeButton}>
+            <Text style={styles.closeButtonText}>X</Text>
+          </TouchableOpacity>
+          <Text>Your eye has been scanned! {'\n'}You exhibit traits of: {'\n'}{diseaseSeverities[result]}</Text>
+          <TouchableOpacity onPress={navigateToEducationPage} style={styles.link}>
+            <Text style={{textDecorationLine: 'underline'}}>Learn more here!</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </TouchableWithoutFeedback>
+  );
+};
 
 
 // https://docs.expo.dev/versions/latest/sdk/camera/
 
 export default function ScanningScreen({navigation}) {
-  const backendEndpoint = Constants.expoConfig.extra.backendEndpoint;
+  const backendEndpoint = process.env.EXPO_PUBLIC_BACKEND_IP;
 
   const [cameraPermission, setCameraPermission] = Camera.useCameraPermissions();
   const [galleryPermission, setGalleryPermission] = useState(null);
 
   const [camera, setCamera] = useState(null);
   const [imageUri, setImageUri] = useState(null);
+  const [showResults, setShowResults] = useState(false);
+  const [result, setResult] = useState("");
   const [type, setType] = useState(Camera.Constants.Type.back);
+
+  const updateResults = (newResult) => {
+    setResult(newResult);
+    setShowResults(true);
+  };
 
   // this function is in shambles
   const permisionFunction = async () => {
@@ -63,6 +104,7 @@ export default function ScanningScreen({navigation}) {
     })
     .then((response) => {
       console.log('Image uploaded successfully:', response.data);
+      updateResults(response.data["message"])
     })
     .catch((error) => {
       console.error('Error uploading image:', error);
@@ -115,6 +157,7 @@ export default function ScanningScreen({navigation}) {
       <Button title={'Take Picture'} onPress={takePicture} />
       <Button title={'Gallery'} onPress={pickImage} />
       {imageUri && <Image source={{ uri: imageUri }} style={{ flex: 1 }} />}
+      {showResults && <ResultsPopup onClose={() => setShowResults(false)} result={result} />}
     </View>
   );
 }
@@ -136,5 +179,36 @@ const styles = StyleSheet.create({
     padding: 10,
     alignSelf: 'flex-end',
     alignItems: 'center',
+  },
+  resultsContainer: {
+    position: 'absolute',
+    top: '20%',
+    left: '10%',
+    width: '80%',
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+  },
+  resultsOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  closeButton: {
+    position: 'absolute',
+    top: 5,
+    right: 5,
+    padding: 5,
+  },
+  closeButtonText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: 'black',
+  },
+  link: {
+    paddingTop: 20,
+    alignItems: 'center',
+    width: '100%'
   },
 });

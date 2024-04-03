@@ -4,7 +4,7 @@ import axios from 'axios';
 import { StyleSheet, View, TextInput, Text, Button, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, SafeAreaView } from 'react-native';
 
 export default function LandingScreen({navigation}) {
-  const backendEndpoint = Constants.expoConfig.extra.backendEndpoint;
+  const backendEndpoint = process.env.EXPO_PUBLIC_BACKEND_IP;
 
   const [response, setResponse] = useState('');
   const [number, setNumber] = useState('');
