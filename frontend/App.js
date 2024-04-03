@@ -1,6 +1,7 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Ionicons } from '@expo/vector-icons';
 
 import LandingScreen from './screens/LandingScreen';
 import ScanningScreen from './screens/ScanningScreen';
@@ -14,7 +15,37 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Tab.Navigator initialRouteName="Home">
+      <Tab.Navigator 
+        initialRouteName="Home"
+        screenOptions= {({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+
+            switch (route.name) {
+              case 'Home':
+                iconName = focused ? 'home' : 'home-outline';
+                break;
+              case 'Profile':
+                iconName = focused ? 'camera' : 'camera-outline';
+                break;
+              case 'History':
+                iconName = focused ? 'stats-chart' : 'stats-chart-outline';
+                break;
+              case 'Education':
+                iconName = focused ? 'book' : 'book-outline';
+                break;
+              default:
+                iconName = focused ? 'camera' : 'camera-outline';
+            }
+            
+            return <Ionicons name={iconName} size={size} color={color} />;
+          }
+        })}
+        tabBarOptions={{
+          activeTintColor: '#007bff', // Color for the focused tab icon
+          inactiveTintColor: 'gray', // Color for inactive tab icons
+        }}
+        >
         <Tab.Screen
           name="Home"
           component={LandingScreen}
