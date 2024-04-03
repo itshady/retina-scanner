@@ -50,7 +50,7 @@ export default function ScanningScreen({navigation}) {
     const base64 = await FileSystem.readAsStringAsync(uri, { encoding: 'base64' });
     const base64Image = `data:image/jpeg;base64,${base64}`;
 
-    console.log("in sendImageToBackend2")
+    console.log("in sendImageToBackend")
 
     axios.post(`http://${backendEndpoint}/upload`, {
       image: base64Image,
