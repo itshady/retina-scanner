@@ -41,10 +41,6 @@ export default function App() {
             return <Ionicons name={iconName} size={size} color={color} />;
           }
         })}
-        tabBarOptions={{
-          activeTintColor: '#007bff', // Color for the focused tab icon
-          inactiveTintColor: 'gray', // Color for inactive tab icons
-        }}
         >
         <Tab.Screen
           name="Home"
