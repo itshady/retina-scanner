@@ -1,3 +1,5 @@
+
+
 {
   "expo": {
     "name": "retina-scanner",
@@ -43,7 +45,6 @@
       ]
     ],
     "extra": {
-      "backendEndpoint": "100.97.81.96",
       "expo":{
         "orientation": "all"
       }
