@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { fetchResults, insertResult } from '../components/database';
 import DiagnosisProgression from '../components/Progression';
 
@@ -30,11 +30,14 @@ export default function HistoryScreen({navigation}) {
     }
 
     return (
-  
       <View style={styles.container}>
-      <TextInput value={currentResult} placeholder='name' onChangeText={setCurrentResult}/>
-        <Button title="Add Result" onPress={addResult}></Button>
-        <DiagnosisProgression results={results}></DiagnosisProgression>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.container}>
+            <TextInput style={styles.input} value={currentResult} placeholder='name' onChangeText={setCurrentResult}/>
+            <Button title="Add Result" onPress={addResult}></Button>
+            <DiagnosisProgression results={results}></DiagnosisProgression>
+          </View>
+        </TouchableWithoutFeedback>
       </View>
     );
   }
@@ -51,7 +54,11 @@ export default function HistoryScreen({navigation}) {
       margin: 12,
       borderWidth: 1,
       padding: 10,
-      width: '80%',
-    },
+      borderRadius: 5, // Rounded corners
+      borderColor: '#007BFF', // Border color
+      backgroundColor: '#FFFFFF', // Background color
+      color: '#000000', // Text color
+      fontSize: 16, // Text size
+    },  
   });
   
