@@ -7,7 +7,7 @@ class ModelHandler():
     def __init__(self):
         save_path = 'ml/model.keras'
         self.model = load_model(save_path)
-        self.labels = ['mild_npdr', 'moderate_npdr', 'nodr', 'pdr', 'severe_npdr']
+        self.labels = ['moderate_npdr', 'nodr', 'pdr']
         
 
     def predict(self, image):
