@@ -57,11 +57,13 @@ export default function ScanningScreen({results, setResults, navigation}) {
 
   const sendImageToBackend = async (uri) => { //uri comes in
     // Convert the image to Base64
-    console.log("here " + uri)
+    // console.log("here " + uri)
     const base64 = await FileSystem.readAsStringAsync(uri, { encoding: 'base64' });
     const base64Image = `data:image/jpeg;base64,${base64}`;
 
-    console.log("in sendImageToBackend")
+    console.log("sending image to backend...")
+
+    const startTime = Date.now();
 
     axios.post(`http://${backendEndpoint}/upload`, {
       image: base64Image,
@@ -73,11 +75,13 @@ export default function ScanningScreen({results, setResults, navigation}) {
       }
     })
     .then((response) => {
-      console.log('Image uploaded successfully:', response.data);
+      const duration = Date.now() - startTime;
+      console.log(`Image uploaded successfully in ${duration} ms:`, response.data);
       updateResults(response.data["message"])
     })
     .catch((error) => {
-      console.error('Error uploading image:', error);
+      const duration = Date.now() - startTime;
+      console.error(`Error uploading image after ${duration} ms:`, error);
     });
   };
 

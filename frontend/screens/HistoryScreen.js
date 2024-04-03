@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Button, TextInput, TouchableWithoutFeedback, Keyboard, ScrollView } from 'react-native';
-import { fetchResults, insertResult } from '../components/database';
+import { fetchResults, insertResult, clearResultsTable } from '../components/database';
 import DiagnosisProgression from '../components/Progression';
 
 // 040500
@@ -13,7 +13,7 @@ export default function HistoryScreen({results, setResults, navigation}) {
     // fetchResults(setResults);
     setIsLoading(false);
 
-    console.log("results fetched")
+    // console.log("results fetched")
   }, []);
 
   const addResult = () => {
@@ -21,6 +21,11 @@ export default function HistoryScreen({results, setResults, navigation}) {
     fetchResults(setResults)
     setCurrentResult(undefined);
   };
+
+  const clearResults = () => {
+    clearResultsTable()
+    fetchResults(setResults)
+  }
   
   if (isLoading) {
     return (
@@ -35,12 +40,15 @@ export default function HistoryScreen({results, setResults, navigation}) {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView>
           <TextInput style={styles.input} value={currentResult} placeholder='Message...' onChangeText={setCurrentResult}/>
-          <Button title="Add Self Log" onPress={addResult}></Button>
+          <View style={styles.buttonsContainer}>
+            <Button title="Add Self Log" onPress={addResult} />
+            <Button title="Clear" color='red' onPress={clearResults} />
+          </View>
           <DiagnosisProgression results={results}></DiagnosisProgression>
         </ScrollView>
       </TouchableWithoutFeedback>
     </View>
-  );
+);
 }
 
 const styles = StyleSheet.create({
@@ -60,5 +68,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF', // Background color
     color: '#000000', // Text color
     fontSize: 16, // Text size
-  },  
+  },
+  buttonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 10,
+    // Adjust padding, margin, etc. as needed
+  },
 });

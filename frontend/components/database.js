@@ -13,7 +13,7 @@ export const fetchResults = (setResults) => {
     tx.executeSql('SELECT * FROM results', null,
       (txObj, resultSet) => {
         setResults(resultSet.rows._array);
-        console.log(resultSet.rows._array);
+        // console.log(resultSet.rows._array);
       },
       (txObj, error) => console.log(error)
     );
@@ -26,13 +26,21 @@ export const insertResult = async (currentResult) => {
     await db.transaction( async tx => {
       await tx.executeSql('INSERT INTO results (result) VALUES (?)', [currentResult],
         (txObj, resultSet) => {
-          console.log("added")
+          // console.log("added")
         },
         (txObj, error) => console.log(error)
       );
     });
   } catch (error) {
     console.error("Error inserting: ", error)
-  }
-  
+  } 
+};
+
+export const clearResultsTable = () => {
+  db.transaction(tx => {
+    tx.executeSql('DELETE FROM results', null,
+      () => console.log('Results table cleared'),
+      (txObj, error) => console.log('Error clearing results table:', error)
+    );
+  });
 };
