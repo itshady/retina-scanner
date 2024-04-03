@@ -39,8 +39,8 @@ def upload_image():
   # print and save the time needed
   print(f'Time of execution of above program is {(end-start) * 10**3} ms', file=sys.stderr)
 
-  with open('timerecords.txt', 'w') as file:
-    file.write(f'Time Elapsed: {(end-start) * 10**3} ms \t Time Start: {start} \t Time End: {end}.\n')
+  with open('timerecords.txt', 'a') as file:
+    file.write(f'Time Start: {start} \t Time End: {end} \t Time Elapsed: {(end-start) * 10**3} ms.\n')
 
   return jsonify({'message': res}), 200
   
