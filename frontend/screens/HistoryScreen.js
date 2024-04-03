@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
-import { initializeDatabase, fetchResults, insertResult } from '../components/database';
+import { fetchResults, insertResult } from '../components/database';
 import DiagnosisProgression from '../components/Progression';
 
 export default function HistoryScreen({navigation}) {
@@ -9,7 +9,6 @@ export default function HistoryScreen({navigation}) {
     const [currentResult, setCurrentResult] = useState(undefined);
 
     useEffect(() => {
-      initializeDatabase();
       fetchResults(setResults);
       setIsLoading(false);
 

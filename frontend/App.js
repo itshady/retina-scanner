@@ -7,9 +7,11 @@ import LandingScreen from './screens/LandingScreen';
 import ScanningScreen from './screens/ScanningScreen';
 import HistoryScreen from './screens/HistoryScreen';
 import EducationScreen from './screens/EducationScreen';
+import { initializeDatabase } from './components/database';
 
 
 const Tab = createBottomTabNavigator();
+initializeDatabase();
 
 export default function App() {
 
