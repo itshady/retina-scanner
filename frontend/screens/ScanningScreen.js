@@ -3,14 +3,13 @@ import { StyleSheet, Text, View, Button, TouchableOpacity, TextInput, Image } fr
 import { Camera, CameraType } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
-import Constants from 'expo-constants';
 import * as FileSystem from 'expo-file-system';
 
 
 // https://docs.expo.dev/versions/latest/sdk/camera/
 
 export default function ScanningScreen({navigation}) {
-  const backendEndpoint = Constants.expoConfig.extra.backendEndpoint;
+  const backendEndpoint = process.env.EXPO_PUBLIC_TAILSCALE_IP;
 
   const [cameraPermission, setCameraPermission] = Camera.useCameraPermissions();
   const [galleryPermission, setGalleryPermission] = useState(null);
