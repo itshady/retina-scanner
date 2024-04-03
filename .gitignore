@@ -40,3 +40,4 @@ backend/ml/model.keras
 
 # pycache
 __pycache__/
+*/.env
