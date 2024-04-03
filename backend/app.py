@@ -25,7 +25,6 @@ def upload_image():
 
   res = modelHandler.predict(image)
 
-  image.save('received_image.jpeg')  # Save or process the image
   return jsonify({'message': res}), 200
 
 if __name__ == '__main__':
