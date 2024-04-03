@@ -5,7 +5,7 @@ import { Camera, CameraType } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import * as FileSystem from 'expo-file-system';
-import { ResultsPopup } from '../components/ResultsPopup';
+import { ResultsPopup, diseaseSeverities } from '../components/ResultsPopup';
 import { fetchResults, insertResult } from '../components/database';
 
 
@@ -25,7 +25,7 @@ export default function ScanningScreen({results, setResults, navigation}) {
 
   const updateResults = (newResult) => {
     setResult(newResult);
-    insertResult(newResult);
+    insertResult(diseaseSeverities[newResult]);
     fetchResults(setResults);
     setShowResults(true);
   };

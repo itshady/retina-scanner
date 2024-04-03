@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
   diagnosisText: {
     fontSize: 16,
     fontWeight: 'bold',
+    width: 220,
   },
   dateText: {
     fontSize: 14,

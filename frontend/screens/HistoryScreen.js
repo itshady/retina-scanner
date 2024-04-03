@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Button, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, TouchableWithoutFeedback, Keyboard, ScrollView } from 'react-native';
 import { fetchResults, insertResult } from '../components/database';
 import DiagnosisProgression from '../components/Progression';
 
@@ -18,6 +18,7 @@ export default function HistoryScreen({results, setResults, navigation}) {
 
   const addResult = () => {
     insertResult(currentResult);
+    fetchResults(setResults)
     setCurrentResult(undefined);
   };
   
@@ -32,11 +33,11 @@ export default function HistoryScreen({results, setResults, navigation}) {
   return (
     <View style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.container}>
-          <TextInput style={styles.input} value={currentResult} placeholder='name' onChangeText={setCurrentResult}/>
-          <Button title="Add Result" onPress={addResult}></Button>
+        <ScrollView>
+          <TextInput style={styles.input} value={currentResult} placeholder='Message...' onChangeText={setCurrentResult}/>
+          <Button title="Add Self Log" onPress={addResult}></Button>
           <DiagnosisProgression results={results}></DiagnosisProgression>
-        </View>
+        </ScrollView>
       </TouchableWithoutFeedback>
     </View>
   );
