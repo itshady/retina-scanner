@@ -1,7 +1,9 @@
 ## Prereq
 
 - Setup tailscale on phone and laptop
-- in frontend/app.json, put your tailscale IP down under extra: backendEndpoint
+- Make a copy of .env_example
+    - Rename it to .env
+    - Change the value of `EXPO_PUBLIC_BACKEND_IP` to your IP from tailscale
 
 ## Backend
 
