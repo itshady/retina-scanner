@@ -20,18 +20,12 @@ export const fetchResults = (setResults) => {
   });
 };
 
-export const insertResult = async (results, currentResult, setCurrentResult, setResults) => {
+export const insertResult = async (currentResult) => {
   try {
     console.log(currentResult);
     await db.transaction( async tx => {
       await tx.executeSql('INSERT INTO results (result) VALUES (?)', [currentResult],
         (txObj, resultSet) => {
-          const currentDate = new Date();
-          const formattedDate = currentDate.toISOString().slice(0, 19).replace('T', ' ');
-          let existingResults = [...results];
-          existingResults.push({ id: resultSet.insertId, result: currentResult, resultDate: formattedDate });
-          setResults(existingResults);
-          setCurrentResult(undefined);
           console.log("added")
         },
         (txObj, error) => console.log(error)

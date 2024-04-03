@@ -5,45 +5,13 @@ import { Camera, CameraType } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import * as FileSystem from 'expo-file-system';
-
-const diseaseSeverities = {
-  "nodr": "No diabetic retinopathy",
-  "mild_npdr": "Mild non-proliferative diabetic retinopathy",
-  "moderate_npdr": "Moderate non-proliferative diabetic retinopathy",
-  "severe_npdr": "Severe non-proliferative diabetic retinopathy",
-  "pdr": "Proliferative diabetic retinopathy"
-}
-
-// Popup to display the results from the ML model.
-const ResultsPopup = ({ onClose, result }) => {
-
-  const navigation = useNavigation();
-
-  const navigateToEducationPage = () => {
-    navigation.navigate('Education'); 
-  };
-
-  return (
-    <TouchableWithoutFeedback onPress={onClose}>
-      <View style={styles.resultsOverlay}>
-        <View style={styles.resultsContainer}>
-          <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-            <Text style={styles.closeButtonText}>X</Text>
-          </TouchableOpacity>
-          <Text>Your eye has been scanned! {'\n'}You exhibit traits of: {'\n'}{diseaseSeverities[result]}</Text>
-          <TouchableOpacity onPress={navigateToEducationPage} style={styles.link}>
-            <Text style={{textDecorationLine: 'underline'}}>Learn more here!</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </TouchableWithoutFeedback>
-  );
-};
+import { ResultsPopup } from '../components/ResultsPopup';
+import { fetchResults, insertResult } from '../components/database';
 
 
 // https://docs.expo.dev/versions/latest/sdk/camera/
 
-export default function ScanningScreen({navigation}) {
+export default function ScanningScreen({results, setResults, navigation}) {
   const backendEndpoint = process.env.EXPO_PUBLIC_BACKEND_IP;
 
   const [cameraPermission, setCameraPermission] = Camera.useCameraPermissions();
@@ -57,6 +25,8 @@ export default function ScanningScreen({navigation}) {
 
   const updateResults = (newResult) => {
     setResult(newResult);
+    insertResult(newResult);
+    fetchResults(setResults);
     setShowResults(true);
   };
 

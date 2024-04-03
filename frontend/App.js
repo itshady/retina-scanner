@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
@@ -14,7 +14,8 @@ const Tab = createBottomTabNavigator();
 initializeDatabase();
 
 export default function App() {
-
+  const [results, setResults] = useState([])
+  
   return (
     <NavigationContainer>
       <Tab.Navigator 
@@ -51,12 +52,14 @@ export default function App() {
         />
         <Tab.Screen 
           name="Profile" 
-          component={ScanningScreen} 
+          // component={ScanningScreen} 
+          children={()=><ScanningScreen results={results} setResults={setResults}/>}
           options={{title: 'Scanning'}}
         />
         <Tab.Screen 
           name="History" 
-          component={HistoryScreen} 
+          // component={HistoryScreen}
+          children={()=><HistoryScreen results={results} setResults={setResults}/>}
           options={{title: 'History and Results'}}
         />
         <Tab.Screen 
