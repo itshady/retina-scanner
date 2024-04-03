@@ -9,7 +9,7 @@ import * as FileSystem from 'expo-file-system';
 // https://docs.expo.dev/versions/latest/sdk/camera/
 
 export default function ScanningScreen({navigation}) {
-  const backendEndpoint = process.env.EXPO_PUBLIC_TAILSCALE_IP;
+  const backendEndpoint = process.env.EXPO_PUBLIC_BACKEND_IP;
 
   const [cameraPermission, setCameraPermission] = Camera.useCameraPermissions();
   const [galleryPermission, setGalleryPermission] = useState(null);
