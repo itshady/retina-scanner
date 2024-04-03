@@ -38,6 +38,8 @@ yarn-error.*
 # the model
 backend/ml/model.keras
 
+backend/received_image.jpeg
+
 # pycache
 __pycache__/
 */.env

@@ -43,7 +43,7 @@
       ]
     ],
     "extra": {
-      "backendEndpoint": "100.100.69.95",
+      "backendEndpoint": "100.97.81.96",
       "expo":{
         "orientation": "all"
       }
