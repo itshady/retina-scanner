@@ -38,8 +38,8 @@ yarn-error.*
 
 # the model
 backend/ml/model.keras
-
 backend/received_image.jpeg
+backend/timerecords.txt
 
 # pycache
 __pycache__/
