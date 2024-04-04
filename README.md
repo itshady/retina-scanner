@@ -1,6 +1,8 @@
 ## Prereq
 
-- Setup tailscale on phone and laptop
+- Have npm installed
+- Setup tailscale on phone and laptop (It's an app to download)
+- Download Expo Go on phone
 - Make a copy of .env_example
     - Rename it to .env
     - Change the value of `EXPO_PUBLIC_BACKEND_IP` to your IP from tailscale
