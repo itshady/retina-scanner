@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Gallery</title>
+    <style>
+        .image-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+    
+        .image-item {
+            margin: 10px;
+            display: flex;
+            align-items: center;
+        }
+    
+        .image-item img {
+            max-width: 1500px;
+            max-height: 1500px;
+            margin-right: 10px;
+        }
+    
+        .image-item figcaption {
+            font-size: 100px; /* Adjust the font size as needed */
+            margin: 0; /* Remove default margin */
+            flex: 1; /* Allow the caption to grow */
+        }
+    </style>
+</head>
+<body>
+    <div class="image-container" id="imageContainer"></div>
+    
+    <script>
+        // Load mapping.txt and process it
+        fetch('mapping.txt')
+            .then(response => response.text())
+            .then(data => {
+                const mapping = {};
+                data.trim().split('\n').forEach(line => {
+                    const [fileName, description] = line.split(', ');
+                    mapping[fileName.trim()] = description.trim();
+                });
+                displayImages(mapping);
+            })
+            .catch(error => console.error('Error fetching mapping:', error));
+
+        function displayImages(mapping) {
+            const container = document.getElementById('imageContainer');
+
+            Object.entries(mapping).forEach(([fileName, description]) => {
+                const img = document.createElement('img');
+                img.src = `images/${fileName}`;
+                img.alt = description;
+                img.width = 1500; // Set the width
+                img.height = 1500; // Set the height
+
+                const figure = document.createElement('figure');
+                figure.classList.add('image-item');
+                figure.appendChild(img);
+
+                const figcaption = document.createElement('figcaption');
+                figcaption.textContent = description;
+                figure.appendChild(figcaption);
+
+                container.appendChild(figure);
+            });
+        }
+    </script>
+</body>
+</html>

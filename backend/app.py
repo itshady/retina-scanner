@@ -8,9 +8,7 @@ import sys
 
 from image_predictor import ModelHandler
 
-from image_predictor import ModelHandler
-
-from image_predictor import ModelHandler
+from datetime import datetime
 
 app = Flask(__name__)
 CORS(app)
@@ -45,6 +43,12 @@ def upload_image():
 
   with open('timerecords.txt', 'a') as file:
     file.write(f'Time Start: {start} \t Time End: {end} \t Time Elapsed: {(end-start) * 10**3} ms.\n')
+    
+  current_date = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+  image.save(f'images/{current_date}.jpeg')
+
+  with open('mapping.txt', 'a') as file:
+    file.write(f'\n{current_date}.jpeg, {res}')
 
   return jsonify({'message': res}), 200
   
