@@ -6,9 +6,9 @@ from io import BytesIO
 import time
 import sys
 
-from image_predictor import ModelHandler
-
 from datetime import datetime
+
+from image_predictor import ModelHandler
 
 app = Flask(__name__)
 CORS(app)
