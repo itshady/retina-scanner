@@ -11,3 +11,9 @@
 
 - cd frontend
 - npx expo start
+
+## Demo HTML
+
+- cd backend
+- py -m http.server
+- write http://localhost:8000/demo.html into your browser

@@ -3,6 +3,7 @@ from flask_cors import CORS
 import base64
 from PIL import Image
 from io import BytesIO
+from datetime import datetime
 
 from image_predictor import ModelHandler
 
@@ -24,7 +25,12 @@ def upload_image():
   modelHandler = ModelHandler()
   res = modelHandler.predict(image)
 
-  image.save('received_image.jpeg')  # Save or process the image
+  current_date = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+  image.save(f'images/{current_date}.jpeg')
+
+  with open('mapping.txt', 'a') as file:
+    file.write(f'\n{current_date}.jpeg, {res}')
+
   return jsonify({'message': res}), 200
 
 if __name__ == '__main__':
