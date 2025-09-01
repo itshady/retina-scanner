@@ -1,5 +1,3 @@
-
-
 {
   "expo": {
     "name": "retina-scanner",
@@ -42,10 +40,11 @@
         {
           "photosPermission": "Allow $(PRODUCT_NAME) to access your gallery"
         }
-      ]
+      ],
+      "expo-asset"
     ],
     "extra": {
-      "expo":{
+      "expo": {
         "orientation": "all"
       }
     }
